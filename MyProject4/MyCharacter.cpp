@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "MyCharacter.h"
 #include "MyProject4.h"
 #include "FPSProjectile.h"
-#include "MyCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "DrawDebugHelpers.h"
+#include "GameHud.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -20,6 +21,11 @@ AMyCharacter::AMyCharacter()
 
 	FPSCameraComponent->bUsePawnControlRotation = true;
 
+	HandMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("Braco")));
+
+	HandMesh->SetupAttachment(FPSCameraComponent);
+
+	pontuacao = 0;
 }
 
 // Called when the game starts or when spawned
@@ -31,15 +37,14 @@ void AMyCharacter::BeginPlay()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("To usando o player"));
 	}
+
+	
 }
 
 // Called every frame
 void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	
-
 }
 
 // Called to bind functionality to input
@@ -61,6 +66,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	PlayerInputComponent->BindAction("Atirar", IE_Pressed, this, &AMyCharacter::Shoot);
 
 	PlayerInputComponent->BindAction("Laser", IE_Pressed, this, &AMyCharacter::LaserBeam);
+
 }
 
 void AMyCharacter::MoveForward(float value)
@@ -152,10 +158,21 @@ void AMyCharacter::LaserBeam()
 		{
 			if (GEngine)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Voce atingiu: %s"), *OutHit.GetActor()->GetName()));
-				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Ponto de impacto: %s"), *OutHit.ImpactPoint.ToString()));
-				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Ponto normal de impacto: %s"), *OutHit.ImpactNormal.ToString()));
+				FString resposta = *OutHit.GetActor()->GetName();
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,  resposta);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%i"), resposta == "manuel"));
+				if (resposta == "manuel")
+				{
+					ULocalPlayer* teste = GetWorld()->GetFirstLocalPlayerFromController();
+					FLocalPlayerContext teste2 = FLocalPlayerContext(teste);
+
+					AGameHud* MeuHud = Cast<AGameHud>(teste2.GetHUD());
+
+					pontuacao += 1;
+					MeuHud->UpdatePointCount(pontuacao);
+				}
 			}
 		}
 	}
 }
+

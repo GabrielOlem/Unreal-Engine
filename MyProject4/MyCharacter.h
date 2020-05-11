@@ -51,11 +51,11 @@ public:
 	UFUNCTION()
 		void LaserBeam();
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 	class UCameraComponent* FPSCameraComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
-		USkeletalMeshComponent* FPSMesh;
+	UPROPERTY(EditAnywhere, Category = Mesh)
+		UStaticMeshComponent* HandMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		FVector MuzzleOffset;
@@ -63,5 +63,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
 		TSubclassOf<class AFPSProjectile> ProjectileClass;
 
-	
+private:
+	UPROPERTY(EditAnywhere)
+		int pontuacao;
 };
