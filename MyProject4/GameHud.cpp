@@ -20,6 +20,14 @@ void AGameHud::BeginPlay()
 			PointWidget->AddToViewport();
 		}
 	}
+	if (FraseWidgetClass)
+	{
+		FraseWidget = CreateWidget<UMirinha>(GetWorld(), FraseWidgetClass);
+		if (FraseWidget)
+		{
+			FraseWidget->AddToViewport();
+		}
+	}
 }
 
 void AGameHud::Tick(float DeltaSeconds)
@@ -37,5 +45,13 @@ void AGameHud::UpdatePointCount(int value)
 	if (PointWidget)
 	{
 		PointWidget->UpdateValor(value);
+	}
+}
+
+void AGameHud::UpdateSentence(FString frase)
+{
+	if (FraseWidget)
+	{
+		FraseWidget->UpdateFrase(frase);
 	}
 }

@@ -33,12 +33,6 @@ void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Blue, TEXT("To usando o player"));
-	}
-
-	
 }
 
 // Called every frame
@@ -156,21 +150,16 @@ void AMyCharacter::LaserBeam()
 	{
 		if (OutHit.bBlockingHit)
 		{
-			if (GEngine)
+			ULocalPlayer* teste = GetWorld()->GetFirstLocalPlayerFromController();
+			FLocalPlayerContext teste2 = FLocalPlayerContext(teste);
+
+			AGameHud* MeuHud = Cast<AGameHud>(teste2.GetHUD());
+
+			FString resposta = *OutHit.GetActor()->GetName();
+			if (resposta == "manuel")
 			{
-				FString resposta = *OutHit.GetActor()->GetName();
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,  resposta);
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("%i"), resposta == "manuel"));
-				if (resposta == "manuel")
-				{
-					ULocalPlayer* teste = GetWorld()->GetFirstLocalPlayerFromController();
-					FLocalPlayerContext teste2 = FLocalPlayerContext(teste);
-
-					AGameHud* MeuHud = Cast<AGameHud>(teste2.GetHUD());
-
-					pontuacao += 1;
-					MeuHud->UpdatePointCount(pontuacao);
-				}
+				pontuacao += 1;
+				MeuHud->UpdatePointCount(pontuacao);
 			}
 		}
 	}

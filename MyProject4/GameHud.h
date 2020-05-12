@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "Components/WidgetComponent.h"
 #include "Points.h"
+#include "Mirinha.h"
 #include "GameHud.generated.h"
 
 /**
@@ -27,9 +28,17 @@ public:
     UFUNCTION()
         void UpdatePointCount(int value);
 
+    UFUNCTION()
+        void UpdateSentence(FString frase);
+
     UPROPERTY(EditDefaultsOnly, Category = "widgets")
-        TSubclassOf<UUserWidget> PointsWidgetClass;
+        TSubclassOf<UUserWidget> PointsWidgetClass; 
+
+    UPROPERTY(EditDefaultsOnly, Category = "widgets")
+        TSubclassOf<UUserWidget> FraseWidgetClass;
 
 private:
     UPoints* PointWidget;
+    UMirinha* FraseWidget;
+
 };
