@@ -51,6 +51,9 @@ public:
 	UFUNCTION()
 		void LaserBeam();
 
+	UFUNCTION()
+		void StartTracing(AActor oldActor, AActor newActor);
+
 	UPROPERTY(EditAnywhere)
 	class UCameraComponent* FPSCameraComponent;
 
@@ -66,4 +69,8 @@ public:
 private:
 	UPROPERTY(EditAnywhere)
 		int pontuacao;
+	UPROPERTY(EditAnywhere)
+		FString Dentes;
+	UPROPERTY(EditAnywhere)
+		int randomNumber;
 };
